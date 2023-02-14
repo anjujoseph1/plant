@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from plant_app.models import *
 from.models import *
 from django.core.exceptions import ObjectDoesNotExist
@@ -21,7 +21,7 @@ def c_id(request):
     cart_id=request.session.session_key
     if not cart_id:
         cart_id=request.session.create()
-        return cart_id
+    return cart_id
 
 
 def addcart(request,product_id):
@@ -41,4 +41,22 @@ def addcart(request,product_id):
         cart_item.save()
     return redirect('cartdet')    
 
+
+def dicrement(request,product_id):
+    cart=CartList.objects.get(cart_id=c_id(request))
+    product=get_object_or_404(Products,id=product_id)
+    cart_items=CartItems.objects.get(product=product,cart=cart)
+    if cart_items.quantity >1:
+        cart_items.quantity -=1
+        cart_items.save()
+    else:
+        cart_items.delete()
+    return redirect('cartdet')
+
+def delete(request,product_id):
+    cart=CartList.objects.get(cart_id=c_id(request))
+    product=get_object_or_404(Products,id=product_id)
+    cart_items=CartItems.objects.get(product=product,cart=cart)
+    cart_items.delete()
+    return redirect('cartdet')
 

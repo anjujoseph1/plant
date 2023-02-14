@@ -34,28 +34,33 @@
 							<th class="product-th">Product</th>
 							<th>Price</th>
 							<th>Quantity</th>
-							<th class="total-th">Total</th>
+							<th class="total-th">Delete</th>
 						</tr>
 					</thead>
+					{% for i in cartitem %}
 					<tbody>
 						<tr>
 							<td class="product-col">
-								<img src="img/product/cart.jpg" alt="">
+								<img src="{{i.product.img.url}}" alt="">
 								<div class="pc-title">
-									<h4>Black Shoulder Bag</h4>
+									<h4>{{i.product.name}}</h4>
 									<a href="#">Edit Product</a>
 								</div>
 							</td>
-							<td class="price-col">$59.90</td>
+							<td class="price-col">{{i.product.price}}</td>
 							<td class="quy-col">
 								<div class="quy-input">
-									<span>Qty</span>
-									<input type="number" value="01">
+									<a href="{% url 'addcart' i.product.id %}">+</a>
+									<span>{{i.quantity}}</span>
+									<!-- <input type="number" value="01"> -->
+									<a href="{% url 'dicrement' i.product.id %}">-</a>
 								</div>
+								
 							</td>
-							<td class="total-col">$59.90</td>
+							<td class="total-col"><a href="{% url 'delete' i.product.id %}">Delete</a></td>
 						</tr>
 					</tbody>
+					{% endfor %}
 				</table>
 			</div>
 			<div class="row cart-buttons">
@@ -63,8 +68,8 @@
 					<div class="site-btn btn-continue">Continue shooping</div>
 				</div>
 				<div class="col-lg-7 col-md-7 text-lg-right text-left">
-					<div class="site-btn btn-clear">Clear cart</div>
-					<div class="site-btn btn-line btn-update">Update Cart</div>
+					<div >Total price = &#x20B9;{{total}}</div>
+					<!-- <div >Update Cart</div> -->
 				</div>
 			</div>
 		</div>
